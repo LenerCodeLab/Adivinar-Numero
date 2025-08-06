@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,22 +16,35 @@
   <body>
     <div class="container">
       <div class="container__contenido">
-        <img
-          src="./img/robot.png"
-          alt="Robot"
-          class="container__imagen-robot"
-        />
         <div class="container__informaciones">
-          <img src="./img/trophy.png" alt="Icono de trofeo" />
           <div class="container__texto">
-            <h1><span class="container__texto-azul">Correcto!</span></h1>
-            <h2>Descubriste el número secreto!</h2>
-            <h2 id="numero"></h2>
+            <h1></h1>
+            <p class="texto__parrafo"></p>
+          </div>
+          <input
+            type="number"
+            id="valorUsuario"
+            min="1"
+            max="10"
+            class="container__input"
+          />
+          <div class="chute container__botones">
+            <button class="container__boton" onclick="verificarIntento()">
+              Intentar
+            </button>
+            <button class="container__boton" id="reiniciar" onclick="inicio()">
+              Nuevo juego
+            </button>
           </div>
         </div>
+        <img
+          src="./img/ia.png"
+          alt="Una persona mirando a la izquierda"
+          class="container__imagen-persona"
+        />
       </div>
     </div>
 
-    <script src="app.js"></script>
+    <script src="app.js" defer></script>
   </body>
 </html>
