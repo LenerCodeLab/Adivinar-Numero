@@ -9,7 +9,7 @@ function inicio(){
     asignarTextoElemento('h1', 'Juego del número secreto');
     asignarTextoElemento('p', 'Indica un número del 1 al 10');
     generarNumeroAleatorio();
-    contador = 0;
+    document.getElementById('valorUsuario').focus();
 }
 function asignarTextoElemento(elemento, texto){
     let elementoHtml = document.querySelector(elemento);
@@ -19,7 +19,10 @@ function asignarTextoElemento(elemento, texto){
 function verificarIntento(){
     let numeroDeUsuario = document.getElementById('valorUsuario').value;
     if(numeroDeUsuario == 0 || isNaN(numeroDeUsuario)){
-        alert('Ingresa un número');
+        asignarTextoElemento('p', 'Ingresa un número');
+        setTimeout(() => {
+        asignarTextoElemento('p', 'Indica un número del 1 al 10');
+        }, 1500);
         return;
     }
     contador ++;
@@ -27,26 +30,35 @@ function verificarIntento(){
         asignarTextoElemento('h1', 'Acertaste');
         asignarTextoElemento('p', `Lo hiciste en ${contador} ${contador == 1 ? 'intento' : 'intentos'} el numero es ${numeroSecreto}`);
         document.getElementById('valorUsuario').value = "";
+        document.getElementById('reiniciar').removeAttribute('disabled');
         return;
     } else if(numeroDeUsuario > numeroSecreto){
-        alert('El numero es menor');
+        asignarTextoElemento('p', 'El número es menor');
     } else{
-        alert(`El numero es mayor`);
+        asignarTextoElemento('p', 'El número es mayor');
     }
-    document.getElementById('valorUsuario').value = "";
     if(contador >= 3){
         asignarTextoElemento('h1', 'Fallaste');
         asignarTextoElemento('p', 'Inicia de nuevo');
+        document.getElementById('valorUsuario').value = "";
+        document.getElementById('reiniciar').removeAttribute('disabled');
         return;
     }
-    
+    setTimeout(() => {
+        asignarTextoElemento('p', 'Indica un número del 1 al 10');
+        }, 1500);
+    document.getElementById('valorUsuario').value = "";
+    document.getElementById('valorUsuario').focus();
     return;
 }
 function generarNumeroAleatorio(){
-    let numeroSecreto2 = Math.floor(Math.random() * 10) + 1;
-    numeroSecreto = numeroSecreto2;
-    console.log(numeroSecreto);
-    return numeroSecreto2;
+    numeroSecreto = Math.floor(Math.random() * 10) + 1;
+    return numeroSecreto;
+}
+function reiniciar(){
+    inicio();
+    document.getElementById('reiniciar').setAttribute('disabled','true');
+    contador = 0;
 }
 //#endregion
 
