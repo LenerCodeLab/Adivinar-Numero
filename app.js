@@ -1,29 +1,78 @@
-//variables
-let numeroSecreto = 6;
-let numeroUsuario = 0;
+//#region variables
+let numeroSecreto = 1;
+let numeroDeUsuario = 0;
 let contador = 0;
-// let palabraIntento = 'intento';
-/*
-varias lineas
-*/
-while(numeroUsuario != numeroSecreto){
-    numeroUsuario = parseInt(prompt("Ingrese el número"));
+//#endregion
+
+//#region FUNCIONES
+function inicio(){
+    asignarTextoElemento('h1', 'Juego del número secreto');
+    asignarTextoElemento('p', 'Indica un número del 1 al 10');
+    generarNumeroAleatorio();
+    contador = 0;
+}
+function asignarTextoElemento(elemento, texto){
+    let elementoHtml = document.querySelector(elemento);
+    elementoHtml.innerHTML = texto;
+    return;
+}
+function verificarIntento(){
+    let numeroDeUsuario = document.getElementById('valorUsuario').value;
+    if(numeroDeUsuario == 0 || isNaN(numeroDeUsuario)){
+        alert('Ingresa un número');
+        return;
+    }
     contador ++;
-if(numeroUsuario == numeroSecreto){
-    alert('Acertaste');
-    document.getElementById("numero").innerHTML = `Lo hiciste en ${contador} ${contador == 1 ? 'intento' : 'intentos'} el numero es ${numeroSecreto}`;
-} else if(numeroUsuario == 0 || isNaN(numeroUsuario)){
-    alert('El numero es 0, ingrese un numero');
-    console.log(numeroUsuario + "hola");
-} else if(numeroUsuario > numeroSecreto){
-    alert('El numero es menor');
-    document.getElementById("numero").innerHTML = "El numero es menor";
-} else{
-    alert(`El numero es mayor`);
-    document.getElementById("numero").innerHTML = "El numero es mayor";
+    if(numeroDeUsuario == numeroSecreto){
+        asignarTextoElemento('h1', 'Acertaste');
+        asignarTextoElemento('p', `Lo hiciste en ${contador} ${contador == 1 ? 'intento' : 'intentos'} el numero es ${numeroSecreto}`);
+        document.getElementById('valorUsuario').value = "";
+        return;
+    } else if(numeroDeUsuario > numeroSecreto){
+        alert('El numero es menor');
+    } else{
+        alert(`El numero es mayor`);
+    }
+    document.getElementById('valorUsuario').value = "";
+    if(contador >= 3){
+        asignarTextoElemento('h1', 'Fallaste');
+        asignarTextoElemento('p', 'Inicia de nuevo');
+        return;
+    }
+    
+    return;
 }
-// palabraIntento = 'intentos';
+function generarNumeroAleatorio(){
+    let numeroSecreto2 = Math.floor(Math.random() * 10) + 1;
+    numeroSecreto = numeroSecreto2;
+    console.log(numeroSecreto);
+    return numeroSecreto2;
 }
+//#endregion
+
+//#region LLAMO A LAS FUNCIONES
+inicio();
+//#endregion
+
+//condicionales
+// while(numeroDeUsuario != numeroSecreto){
+//     numeroDeUsuario = parseInt(prompt("Ingrese el número"));
+//     contador ++;
+// if(numeroDeUsuario == numeroSecreto){
+//     alert('Acertaste');
+//     document.getElementById("numero").innerHTML = `Lo hiciste en ${contador} ${contador == 1 ? 'intento' : 'intentos'} el numero es ${numeroSecreto}`;
+// } else if(numeroDeUsuario == 0 || isNaN(numeroDeUsuario)){
+//     alert('El numero es 0, ingrese un numero');
+//     console.log(numeroDeUsuario + "hola");
+// } else if(numeroDeUsuario > numeroSecreto){
+//     alert('El numero es menor');
+//     document.getElementById("numero").innerHTML = "El numero es menor";
+// } else{
+//     alert(`El numero es mayor`);
+//     document.getElementById("numero").innerHTML = "El numero es mayor";
+// }
+// // palabraIntento = 'intentos';
+// }
 
 // // 1 - Muestra una alerta con el mensaje de bienvenida
 // alert("¡Bienvenida y bienvenido a nuestro sitio web!");
