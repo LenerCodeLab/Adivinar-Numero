@@ -2,12 +2,14 @@
 let numeroSecreto = 1;
 let numeroDeUsuario = 0;
 let contador = 0;
+let listaNumeroSecreto = [];
+let numeroMaximo = 10;
 //#endregion
 
 //#region FUNCIONES
 function inicio(){
     asignarTextoElemento('h1', 'Juego del número secreto');
-    asignarTextoElemento('p', 'Indica un número del 1 al 10');
+    asignarTextoElemento('p', `Indica un número del 1 al ${numeroMaximo}`);
     generarNumeroAleatorio();
     document.getElementById('valorUsuario').focus();
 }
@@ -17,19 +19,27 @@ function asignarTextoElemento(elemento, texto){
     return;
 }
 function verificarIntento(){
-    let numeroDeUsuario = document.getElementById('valorUsuario').value;
+    //#region Declaramos variables
+    numeroDeUsuario = document.getElementById('valorUsuario').value;
+    contador ++;
+    //#endregion
+
+    //#region Validamos que ingrese un número distinto de 0 o vacio
     if(numeroDeUsuario == 0 || isNaN(numeroDeUsuario)){
         asignarTextoElemento('p', 'Ingresa un número');
         setTimeout(() => {
-        asignarTextoElemento('p', 'Indica un número del 1 al 10');
+        asignarTextoElemento('p', `Indica un número del 1 al ${numeroMaximo}`);
         }, 1500);
         return;
     }
-    contador ++;
+    //#endregion
+
+    //#region Validamos si es mayor menor o igual
     if(numeroDeUsuario == numeroSecreto){
         asignarTextoElemento('h1', 'Acertaste');
         asignarTextoElemento('p', `Lo hiciste en ${contador} ${contador == 1 ? 'intento' : 'intentos'} el numero es ${numeroSecreto}`);
         document.getElementById('valorUsuario').value = "";
+        document.getElementById('intentar').setAttribute('disabled','true');
         document.getElementById('reiniciar').removeAttribute('disabled');
         return;
     } else if(numeroDeUsuario > numeroSecreto){
@@ -37,28 +47,50 @@ function verificarIntento(){
     } else{
         asignarTextoElemento('p', 'El número es mayor');
     }
+    //#endregion
+
+    //#region Se valida el numero de intentos
     if(contador >= 3){
         asignarTextoElemento('h1', 'Fallaste');
         asignarTextoElemento('p', 'Inicia de nuevo');
         document.getElementById('valorUsuario').value = "";
+        document.getElementById('intentar').setAttribute('disabled','true');
         document.getElementById('reiniciar').removeAttribute('disabled');
         return;
     }
+    //#endregion
+
     setTimeout(() => {
-        asignarTextoElemento('p', 'Indica un número del 1 al 10');
+        asignarTextoElemento('p', `Indica un número del 1 al ${numeroMaximo}`);
         }, 1500);
     document.getElementById('valorUsuario').value = "";
     document.getElementById('valorUsuario').focus();
     return;
 }
 function generarNumeroAleatorio(){
-    numeroSecreto = Math.floor(Math.random() * 10) + 1;
-    return numeroSecreto;
+    numeroSecreto = Math.floor(Math.random() * numeroMaximo) + 1;
+
+    if(listaNumeroSecreto.length == numeroMaximo){
+        asignarTextoElemento('p', `Ya lograste adivinar todos los números vuelve a intentarlo`);
+        listaNumeroSecreto = [];
+        document.getElementById('intentar').setAttribute('disabled','true');
+        document.getElementById('reiniciar').removeAttribute('disabled');
+        return;
+    }else{
+        if(listaNumeroSecreto.includes(numeroSecreto)){
+            return generarNumeroAleatorio();
+        }else{
+            console.log(numeroSecreto);
+            listaNumeroSecreto.push(numeroSecreto);
+            return numeroSecreto;
+        }
+    }
 }
 function reiniciar(){
-    inicio();
     document.getElementById('reiniciar').setAttribute('disabled','true');
+    document.getElementById('intentar').removeAttribute('disabled');
     contador = 0;
+    inicio();
 }
 //#endregion
 
